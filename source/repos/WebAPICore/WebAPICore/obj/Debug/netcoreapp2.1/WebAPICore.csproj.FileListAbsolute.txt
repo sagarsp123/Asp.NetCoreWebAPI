@@ -1,0 +1,14 @@
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\bin\Debug\netcoreapp2.1\WebAPICore.deps.json
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\bin\Debug\netcoreapp2.1\WebAPICore.runtimeconfig.json
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\bin\Debug\netcoreapp2.1\WebAPICore.runtimeconfig.dev.json
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\bin\Debug\netcoreapp2.1\WebAPICore.dll
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\bin\Debug\netcoreapp2.1\WebAPICore.pdb
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.csprojAssemblyReference.cache
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.csproj.CoreCompileInputs.cache
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.RazorAssemblyInfo.cache
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.RazorAssemblyInfo.cs
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.AssemblyInfoInputs.cache
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.AssemblyInfo.cs
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.RazorTargetAssemblyInfo.cache
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.dll
+C:\Users\VAIBHAV\source\repos\WebAPICore\WebAPICore\obj\Debug\netcoreapp2.1\WebAPICore.pdb
