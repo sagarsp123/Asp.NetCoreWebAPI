@@ -18,5 +18,10 @@ namespace WebAPICore.Data
 
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<UserDetails> Userdetails { get; set; }
+        public DbSet<LeaveDetails> LeaveDetails { get; set; }
+        public DbQuery<CurrentUserDetails> CurrentUsers { get; set; }
+        public DbQuery<EmployeeLeaveDetails> EmployeeLeaveDetails { get; set; }
+
     }
 }

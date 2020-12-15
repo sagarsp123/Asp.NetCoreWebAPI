@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebAPICore.Data;
 using WebAPICore.Models;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace WebAPICore
 {
@@ -29,9 +31,23 @@ namespace WebAPICore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+            });
             services.AddDbContext<EmployeeContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "MyAPI",
+                    Description = "Testing"
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,9 +61,19 @@ namespace WebAPICore
             {
                 app.UseHsts();
             }
-
+            app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
             app.UseHttpsRedirection();
             app.UseMvc();
+          
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI");
+            });
         }
+        
     }
+   
 }

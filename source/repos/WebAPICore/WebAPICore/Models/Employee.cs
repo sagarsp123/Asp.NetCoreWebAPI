@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace WebAPICore.Models
         public string EmployeeName { get; set; }
         public string Department { get; set; }
         public string MailID { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? DOJ { get; set; }
+        public int? ManagerID { get; set; }
     }
 }

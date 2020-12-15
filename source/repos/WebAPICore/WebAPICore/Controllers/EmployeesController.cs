@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ namespace WebAPICore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class EmployeesController : ControllerBase
     {
         private readonly EmployeeContext _context;
@@ -28,7 +31,7 @@ namespace WebAPICore.Controllers
             return _context.Employees;
         }
 
-        // GET: api/Employees/5
+        //GET: api/Employees/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee([FromRoute] long id)
         {
@@ -39,6 +42,8 @@ namespace WebAPICore.Controllers
 
             var employee = await _context.Employees.FindAsync(id);
 
+            employee.DOJ = employee.DOJ.Value.Date;
+
             if (employee == null)
             {
                 return NotFound();
@@ -47,19 +52,21 @@ namespace WebAPICore.Controllers
             return Ok(employee);
         }
 
+    
+
         // PUT: api/Employees/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee([FromRoute] long id, [FromBody] Employee employee)
+        [HttpPut]
+        public async Task<IActionResult> PutEmployee([FromBody] Employee employee)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != employee.EmployeeID)
-            {
-                return BadRequest();
-            }
+            //if (id != employee.EmployeeID)
+            //{
+            //    return BadRequest();
+            //}
 
             _context.Entry(employee).State = EntityState.Modified;
 
@@ -69,17 +76,18 @@ namespace WebAPICore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!EmployeeExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
+                throw;
             }
 
-            return NoContent();
+            return Content("Updated Successfully");
         }
 
         // POST: api/Employees

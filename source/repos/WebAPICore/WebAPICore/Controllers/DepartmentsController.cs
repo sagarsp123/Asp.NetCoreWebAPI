@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace WebAPICore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class DepartmentsController : ControllerBase
     {
         private readonly EmployeeContext _context;
@@ -22,44 +24,67 @@ namespace WebAPICore.Controllers
         }
 
         // GET: api/Departments
+        //[HttpGet]
+        //public IEnumerable<Department> GetDepartments()
+        //{
+        //    return _context.Departments;
+        //}
+
+
         [HttpGet]
         public IEnumerable<Department> GetDepartments()
         {
-            return _context.Departments;
+            return _context.Departments.FromSql<Department>("getDepartment").ToList();
         }
 
         // GET: api/Departments/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetDepartment([FromRoute] long id)
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetDepartment([FromRoute] long id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var department = await _context.Departments.FindAsync(id);
+
+
+        //    if (department == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(department);
+        //}
+
+        // GET: api/Departments/5
+       [HttpGet("{id}")]
+        public Department GetDepartment([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+
+            var department = _context.Departments.FromSql<Department>("spGetDepartmentById {0}",id).ToList().FirstOrDefault();
+
+            if(department == null)
             {
-                return BadRequest(ModelState);
+                department.DepartmentName = "Not Found";
             }
-
-            var department = await _context.Departments.FindAsync(id);
-
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(department);
+            return department;
         }
 
+        /*[FromRoute] long id,*/
         // PUT: api/Departments/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment([FromRoute] long id, [FromBody] Department department)
+        [HttpPut]
+        public async Task<IActionResult> PutDepartment([FromBody] Department department)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != department.DepartmentID)
-            {
-                return BadRequest();
-            }
+            //if (id != department.DepartmentID)
+            //{
+            //    return BadRequest();
+            //}
 
             _context.Entry(department).State = EntityState.Modified;
 
@@ -69,17 +94,18 @@ namespace WebAPICore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DepartmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!DepartmentExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
+                throw;
             }
 
-            return NoContent();
+            return Content("Updated Successfully");
         }
 
         // POST: api/Departments
