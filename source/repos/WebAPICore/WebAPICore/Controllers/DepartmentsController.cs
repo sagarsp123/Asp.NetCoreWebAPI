@@ -31,10 +31,16 @@ namespace WebAPICore.Controllers
         //}
 
 
+        //[HttpGet]
+        //public IEnumerable<Department> GetDepartments()
+        //{
+        //    return _context.Departments.FromSql<Department>("getDepartment").ToList();
+        //}
+
         [HttpGet]
-        public IEnumerable<Department> GetDepartments()
+        public IEnumerable<DepartmentWithEmployeeCount> GetDepartments()
         {
-            return _context.Departments.FromSql<Department>("getDepartment").ToList();
+            return _context.departmentWithEmployees.FromSql<DepartmentWithEmployeeCount>("spGetDepartmentWithEmployeeCount").ToList();
         }
 
         // GET: api/Departments/5
@@ -58,7 +64,7 @@ namespace WebAPICore.Controllers
         //}
 
         // GET: api/Departments/5
-       [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public Department GetDepartment([FromRoute] long id)
         {
 

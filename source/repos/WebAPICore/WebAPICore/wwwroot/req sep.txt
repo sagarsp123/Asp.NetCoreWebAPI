@@ -1,0 +1,8 @@
+3 - 5 years experience in the .NET development
+Should have good database experience in SQL
+Should have good hands on experience in MVC
+Should have strong knowledge in Entity Framework
+Expertise in writing services using Web API
+Should possess good analytical skills
+Should exhibit excellent interpersonal, presentation and communication skills
+Prior experience with working in Agile Safe development model preferred

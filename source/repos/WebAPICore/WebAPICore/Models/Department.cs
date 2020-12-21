@@ -9,5 +9,6 @@ namespace WebAPICore.Models
     {
         public long DepartmentID { get; set; }
         public string DepartmentName { get; set; }
+        public string DeptLocation { get; set; }
     }
 }

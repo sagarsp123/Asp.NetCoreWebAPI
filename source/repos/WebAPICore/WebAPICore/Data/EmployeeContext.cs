@@ -22,6 +22,7 @@ namespace WebAPICore.Data
         public DbSet<LeaveDetails> LeaveDetails { get; set; }
         public DbQuery<CurrentUserDetails> CurrentUsers { get; set; }
         public DbQuery<EmployeeLeaveDetails> EmployeeLeaveDetails { get; set; }
+        public DbQuery<DepartmentWithEmployeeCount> departmentWithEmployees { get; set; }
 
     }
 }

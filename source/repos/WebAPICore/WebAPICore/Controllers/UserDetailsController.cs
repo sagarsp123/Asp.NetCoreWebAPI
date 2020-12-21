@@ -152,5 +152,16 @@ namespace WebAPICore.Controllers
         {
             return _context.Userdetails.Any(e => e.UserID == id);
         }
+
+        [HttpGet("/EmployeeOrg/{id}")]
+        public async Task<IActionResult> GetEmployeeOrg([FromRoute] long id)
+        {
+            List<CurrentUserDetails> emps = new List<CurrentUserDetails>
+            {
+                          new CurrentUserDetails  {UserID= 12, EmailID= "Vaibhav113@gmail.com" }
+
+            };
+            return Ok(emps);
+        }
     }
 }

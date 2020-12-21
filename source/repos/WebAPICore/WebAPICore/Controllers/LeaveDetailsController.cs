@@ -156,12 +156,16 @@ namespace WebAPICore.Controllers
 
                     using (SmtpClient smtpClient = new SmtpClient())
                     {
-                        smtpClient.Host = "smtp.office365.com";
-                        smtpClient.EnableSsl = true;
+                        //  smtpClient.Host = "smtp.office365.com";
+                        smtpClient.Host = "smtp.gmail.com";
+                        //  smtpClient.EnableSsl = false;
                         smtpClient.Port = 587;
+                        // smtpClient.Port = 25;
                         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.Credentials = new System.Net.NetworkCredential("vaibhav.dhadse@lntinfotech.com", "Newuser@12345", "lntinfotech.com");
+                        //   smtpClient.Credentials = new System.Net.NetworkCredential("amitkumar.jaiswal@lntinfotech.com", "Lnt@0987654");
+                        smtpClient.Credentials = new System.Net.NetworkCredential("vairokz7@gmail.com", "Gmailpass@1995");
+                        smtpClient.EnableSsl = true;
                         smtpClient.Timeout = 6000000;
                         smtpClient.Send(EMail);
                     }
@@ -197,7 +201,7 @@ namespace WebAPICore.Controllers
                 MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Dear " + LeaveData.EmployeeName + ",<br/><br/></font>");
                 //MailBody_PM.Append("Dear #Employee_Name#,< br/><br/>");
 
-                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Your Earned Leave application from Dec 24, 2020  to Dec 24, 2020  has been " + leaveStatus.ToLower() + "by your superior.<br/><br/></font>");
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Your Earned Leave application from "+LeaveData.LStartDate.Value.Date.ToString("dd MMM yyyy") +" to "+ LeaveData.LEndDate.Value.Date.ToString("dd MMM yyyy") + " has been " + leaveStatus.ToLower() + " by your superior.<br/><br/></font>");
 
                 MailBody_PM.Append("<br/><br/><br/>");
                 MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Regards,<br/>Leave Administrator</font><br/><br/></font>");
@@ -220,14 +224,14 @@ namespace WebAPICore.Controllers
                 Mail ObjMail_PM = new Mail()
                 {
                     To = "10655380@lntinfotech.com",
-                    CC = "10639274" + "@lntinfotech.com," + "10643265" + "@lntinfotech.com",
+                    CC = "10639274" + "@lntinfotech.com," + "10643265" + "@lntinfotech.com," + "10670758" + "@lntinfotech.com",
                     //CC = "10670758@lntinfotech.com",
 
 
 
-                    Subject = "Automatic" + status +": Leave Application " +leaveStatus + " by Superior",
+                    Subject = "Automatic " + status +": Leave Application " +leaveStatus + " by Superior",
                     Body = MailBody_PM.ToString(),
-                    Sender = "vaibhav.dhadse@lntinfotech.com",
+                    Sender = "vairokz7@gmail.com",
                     CallingMethodName = MethodBase.GetCurrentMethod().Name,
                     Status = "Pending"
                 };
