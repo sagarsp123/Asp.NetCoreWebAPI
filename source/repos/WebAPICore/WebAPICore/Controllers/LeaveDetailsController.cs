@@ -13,6 +13,7 @@ using WebAPICore.Models;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text;
+using System.IO;
 
 namespace WebAPICore.Controllers
 {
@@ -58,7 +59,10 @@ namespace WebAPICore.Controllers
 
             _context.LeaveDetails.Add(leaveDetails);
             await _context.SaveChangesAsync();
+            LeaveDetails obj = _context.LeaveDetails.FromSql<LeaveDetails>("spGetLeaveDetailWithEmployeeByEmployeeId").ToList().FirstOrDefault();
+            var leaveDetail = _context.EmployeeLeaveDetails.FromSql<EmployeeLeaveDetails>("spGetLeaveDetailsByLeaveID {0}", obj.LeaveID).ToList().FirstOrDefault();
 
+            Send_LeaveRequestMail(leaveDetail);
             return CreatedAtAction("GetLeaveDetails", new { id = leaveDetails.LeaveID }, leaveDetails);
         }
 
@@ -247,5 +251,88 @@ namespace WebAPICore.Controllers
                 return BadRequest("Something went wrong");
             }
         }
+
+  
+      [HttpGet]
+        [Route("Send_LeaveRequestMail")]
+        public IActionResult Send_LeaveRequestMail(EmployeeLeaveDetails leavedata)
+        {
+            string currentMethod = MethodBase.GetCurrentMethod().Name;
+
+            #region Send Mail Code
+            try
+            {
+
+                StringBuilder MailBody_PM = new StringBuilder();
+                // string fileuplaod =   "D:/textfile.txt";
+                string fileuplaod = "C:/Users/VAIBHAV/Downloads/Agile.pdf";
+
+                byte[] bytes = System.IO.File.ReadAllBytes(fileuplaod);
+
+                var stream = new MemoryStream(bytes);
+                stream.Position = 0;
+
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Dear Vaibhav,<br/><br/></font>");
+
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Leave Request has been submitted by the below employee -<br/><br/></font>");
+
+                // MailBody_PM.Append("<font face=\"calibri\" size=\"3\" font-weight=\"bold\">Leave Details<br/><br/></font>");
+
+
+                MailBody_PM.Append("<table width='95%' cellpadding = '5' cellspacing = '0' style = 'border: 1px solid #000000;font-size: \"3\";font-family:calibri'> ");
+                MailBody_PM.Append("<tr>");
+                MailBody_PM.Append("<th style='background-color: #B8DBFD;border: 1px solid #000000'> Employee Name </th> ");
+                MailBody_PM.Append("<th style='background-color: #B8DBFD;border: 1px solid #000000'> Leave Start Date</th> ");
+                MailBody_PM.Append("<th style='background-color: #B8DBFD;border: 1px solid #000000'> Leave End Date</th> ");
+                MailBody_PM.Append("</tr>");
+
+                MailBody_PM.Append("<tr>");
+                MailBody_PM.Append("<td style='text-align:center '>" + leavedata.EmployeeName + "</td>");
+                MailBody_PM.Append("<td style='text-align:center '>" + leavedata.LStartDate.Value.Date.ToString("dd MMM yyyy") + "</td>");
+                MailBody_PM.Append("<td style='text-align:center'>" + leavedata.LEndDate.Value.Date.ToString("dd MMM yyyy") + "</td>");
+                MailBody_PM.Append("</tr>");
+
+
+                MailBody_PM.Append("</tr></table>");
+                MailBody_PM.Append("<br/><br/><br/>");
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Note: If no action performed on the request, the request will be autorejected after 5 days.</font>");
+
+                MailBody_PM.Append("<br/><br/>");
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\">Regards,<br/>Leave Administrator</font><br/><br/></font>");
+                MailBody_PM.Append("<font face=\"calibri\" size=\"3\"><hr width=\"96%\"><p style=\"color: red;\"> Note: This is an automatically generated email. Please do not reply directly to this mail.</p></font>");
+
+
+                Mail ObjMail_PM = new Mail()
+                {
+                    To = "10639274@lntinfotech.com",
+                    //To = "ajaiswal44@gmail.com",
+                    CC = "10670758" + "@lntinfotech.com," + "10643265" + "@lntinfotech.com," + "10655380" + "@lntinfotech.com",
+                    //CC = "10670758@lntinfotech.com",
+
+                    Subject = "Leave Application requested by Employee",
+                    Body = MailBody_PM.ToString(),
+                    Sender = "vairokz7@gmail.com",
+                    CallingMethodName = MethodBase.GetCurrentMethod().Name,
+                    Status = "Pending"
+                };
+
+                ObjMail_PM.Attachments = new Dictionary<string, Stream>
+                            {
+                                { "Leave_Request_Attachemnt.pdf", stream }
+                            };
+
+                SendMail(ObjMail_PM);
+
+                return Ok();
+            }
+            #endregion
+
+            catch (Exception ex)
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
+
+
     }
 }
